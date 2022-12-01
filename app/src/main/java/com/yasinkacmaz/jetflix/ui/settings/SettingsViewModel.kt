@@ -4,27 +4,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yasinkacmaz.jetflix.service.ConfigurationService
+import com.yasinkacmaz.jetflix.util.viewmodel.StatefulViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val configurationService: ConfigurationService,
-    private val languageDataStore: LanguageDataStore
-) : ViewModel() {
+    private val languageDataStore: ILanguageDataStore
+) : StatefulViewModel<SettingsViewModel.UiState>() {
 
     val selectedLanguage = languageDataStore.language
     val onSettingsChanged = MutableLiveData<Unit>()
-    val uiState = MutableStateFlow(UiState())
-
-    var uiValue
-        get() = uiState.value
-        set(value) {
-            uiState.value = value
-        }
+    override val uiState = MutableStateFlow(UiState())
 
     fun fetchLanguages() {
         val canFetchLanguages = uiValue.languages.isEmpty() && uiValue.showLoading.not()

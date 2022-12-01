@@ -9,9 +9,8 @@ import androidx.paging.PagingData
 import com.yasinkacmaz.jetflix.service.MovieService
 import com.yasinkacmaz.jetflix.ui.filter.FilterDataStore
 import com.yasinkacmaz.jetflix.ui.filter.FilterState
-import com.yasinkacmaz.jetflix.ui.filter.MovieRequestOptionsMapper
+import com.yasinkacmaz.jetflix.ui.filter.IFilterDataStore
 import com.yasinkacmaz.jetflix.ui.movies.movie.Movie
-import com.yasinkacmaz.jetflix.ui.movies.movie.MovieMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -29,15 +28,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     private val movieService: MovieService,
-    private val movieMapper: MovieMapper,
-    private val movieRequestOptionsMapper: MovieRequestOptionsMapper,
-    filterDataStore: FilterDataStore
+    filterDataStore: IFilterDataStore
 ) : ViewModel() {
     private val pager: Pager<Int, Movie> =
         Pager(config = PagingConfig(pageSize = 20), pagingSourceFactory = ::initPagingSource)
     val movies: Flow<PagingData<Movie>> = pager.flow
     val filterStateChanges = MutableSharedFlow<FilterState>()
-    private var filterState: FilterState? = null
+    private var filterState: FilterState = FilterState()
 
     private val searchQuery = MutableStateFlow("")
     private val _searchQueryChanges = MutableSharedFlow<Unit>()
@@ -65,8 +62,6 @@ class MoviesViewModel @Inject constructor(
     @VisibleForTesting
     fun initPagingSource() = MoviesPagingSource(
         movieService,
-        movieMapper,
-        movieRequestOptionsMapper,
         filterState,
         searchQuery.value
     ).also(::pagingSource::set)

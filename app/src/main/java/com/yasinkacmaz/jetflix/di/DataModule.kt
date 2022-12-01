@@ -5,6 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.yasinkacmaz.jetflix.ui.filter.FilterDataStore
+import com.yasinkacmaz.jetflix.ui.filter.IFilterDataStore
+import com.yasinkacmaz.jetflix.ui.settings.ILanguageDataStore
 import com.yasinkacmaz.jetflix.ui.settings.LanguageDataStore
 import dagger.Module
 import dagger.Provides
@@ -22,13 +24,13 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideLanguageDataStore(@ApplicationContext context: Context, json: Json): LanguageDataStore {
+    fun provideLanguageDataStore(@ApplicationContext context: Context, json: Json): ILanguageDataStore {
         return LanguageDataStore(json, context.preferencesDataStore)
     }
 
     @Provides
     @Singleton
-    fun provideFilterDataStore(@ApplicationContext context: Context, json: Json): FilterDataStore {
+    fun provideFilterDataStore(@ApplicationContext context: Context, json: Json): IFilterDataStore {
         return FilterDataStore(json, context.preferencesDataStore)
     }
 }

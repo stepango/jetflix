@@ -3,7 +3,7 @@ package com.yasinkacmaz.jetflix.ui.filter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yasinkacmaz.jetflix.service.MovieService
-import com.yasinkacmaz.jetflix.ui.filter.genres.GenreUiModelMapper
+import com.yasinkacmaz.jetflix.ui.filter.genres.genreUiModelMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,9 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
-    private val filterDataStore: FilterDataStore,
+    private val filterDataStore: IFilterDataStore,
     private val movieService: MovieService,
-    private val genreUiModelMapper: GenreUiModelMapper
 ) : ViewModel() {
 
     private val _filterState: MutableStateFlow<FilterState?> = MutableStateFlow(null)
@@ -26,7 +25,7 @@ class FilterViewModel @Inject constructor(
 
     private fun listenFilterStateChanges() = viewModelScope.launch {
         val genres = try {
-            movieService.fetchGenres().genres.map(genreUiModelMapper::map)
+            movieService.fetchGenres().genres.map(::genreUiModelMapper)
         } catch (exception: Exception) {
             emptyList()
         }

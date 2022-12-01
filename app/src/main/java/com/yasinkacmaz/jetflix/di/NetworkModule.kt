@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.yasinkacmaz.jetflix.R
 import com.yasinkacmaz.jetflix.service.ConfigurationService
 import com.yasinkacmaz.jetflix.service.MovieService
+import com.yasinkacmaz.jetflix.ui.settings.ILanguageDataStore
 import com.yasinkacmaz.jetflix.ui.settings.LanguageDataStore
 import com.yasinkacmaz.jetflix.util.interceptor.ApiKeyInterceptor
 import com.yasinkacmaz.jetflix.util.interceptor.LanguageInterceptor
@@ -37,7 +38,7 @@ object NetworkModule {
     @Provides
     @Singleton
     @IntoSet
-    fun provideLanguageInterceptor(languageDataStore: LanguageDataStore): Interceptor {
+    fun provideLanguageInterceptor(languageDataStore: ILanguageDataStore): Interceptor {
         return LanguageInterceptor(languageDataStore)
     }
 

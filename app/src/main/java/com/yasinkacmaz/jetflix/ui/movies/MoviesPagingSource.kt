@@ -3,19 +3,17 @@ package com.yasinkacmaz.jetflix.ui.movies
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.yasinkacmaz.jetflix.service.MovieService
-import com.yasinkacmaz.jetflix.ui.filter.MovieRequestOptionsMapper
 import com.yasinkacmaz.jetflix.ui.filter.FilterState
+import com.yasinkacmaz.jetflix.ui.filter.movieRequestOptionsMapper
 import com.yasinkacmaz.jetflix.ui.movies.movie.Movie
-import com.yasinkacmaz.jetflix.ui.movies.movie.MovieMapper
+import com.yasinkacmaz.jetflix.ui.movies.movie.movieMapper
 
 class MoviesPagingSource(
     private val movieService: MovieService,
-    private val movieMapper: MovieMapper,
-    movieRequestOptionsMapper: MovieRequestOptionsMapper,
-    filterState: FilterState? = null,
+    filterState: FilterState = FilterState(),
     private val searchQuery: String = ""
 ) : PagingSource<Int, Movie>() {
-    private val options = movieRequestOptionsMapper.map(filterState)
+    private val options = movieRequestOptionsMapper(filterState)
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
@@ -25,7 +23,7 @@ class MoviesPagingSource(
             } else {
                 movieService.fetchMovies(page, options)
             }
-            val movies = moviesResponse.movies.map(movieMapper::map)
+            val movies = moviesResponse.movies.map(::movieMapper)
             LoadResult.Page(
                 data = movies,
                 prevKey = if (page == 1) null else page - 1,

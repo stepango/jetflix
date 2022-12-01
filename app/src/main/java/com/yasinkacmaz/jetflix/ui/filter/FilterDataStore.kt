@@ -11,8 +11,17 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class FilterDataStore(private val json: Json, private val preferences: DataStore<Preferences>) {
-    val filterState: Flow<FilterState> = preferences.data
+interface IFilterDataStore {
+    val filterState: Flow<FilterState>
+
+    suspend fun onFilterStateChanged(filterState: FilterState)
+
+    suspend fun resetFilterState()
+
+}
+
+class FilterDataStore(private val json: Json, private val preferences: DataStore<Preferences>) : IFilterDataStore {
+    override val filterState: Flow<FilterState> = preferences.data
         .map { preferences ->
             val filterStateString = preferences[KEY_FILTER_STATE]
             if (filterStateString != null) {
@@ -25,13 +34,13 @@ class FilterDataStore(private val json: Json, private val preferences: DataStore
             emit(FilterState())
         }
 
-    suspend fun onFilterStateChanged(filterState: FilterState) {
+    override suspend fun onFilterStateChanged(filterState: FilterState) {
         preferences.edit { preferences ->
             preferences[KEY_FILTER_STATE] = json.encodeToString(filterState)
         }
     }
 
-    suspend fun resetFilterState() {
+    override suspend fun resetFilterState() {
         preferences.edit { preferences ->
             preferences[KEY_FILTER_STATE] = json.encodeToString(FilterState())
         }

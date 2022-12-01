@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yasinkacmaz.jetflix.service.MovieService
 import com.yasinkacmaz.jetflix.ui.moviedetail.credits.Credits
-import com.yasinkacmaz.jetflix.ui.moviedetail.credits.CreditsMapper
+import com.yasinkacmaz.jetflix.ui.moviedetail.credits.creditsMapper
 import com.yasinkacmaz.jetflix.ui.moviedetail.image.Image
-import com.yasinkacmaz.jetflix.ui.moviedetail.image.ImageMapper
+import com.yasinkacmaz.jetflix.ui.moviedetail.image.imageMapper
 import com.yasinkacmaz.jetflix.ui.navigation.ARG_MOVIE_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -22,9 +22,6 @@ import javax.inject.Inject
 class MovieDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val movieService: MovieService,
-    private val movieDetailMapper: MovieDetailMapper,
-    private val creditsMapper: CreditsMapper,
-    private val imageMapper: ImageMapper
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MovieDetailUiState())
@@ -43,9 +40,9 @@ class MovieDetailViewModel @Inject constructor(
                 val creditsResponse = async { movieService.fetchMovieCredits(movieId) }
                 val imagesResponse = async { movieService.fetchMovieImages(movieId) }
                 _uiState.value.copy(
-                    movieDetail = movieDetailMapper.map(movieDetailResponse.await()),
-                    credits = creditsMapper.map(creditsResponse.await()),
-                    images = imageMapper.map(imagesResponse.await()),
+                    movieDetail = movieDetailMapper(movieDetailResponse.await()),
+                    credits = creditsMapper(creditsResponse.await()),
+                    images = imageMapper(imagesResponse.await()),
                     loading = false
                 )
             }
