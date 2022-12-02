@@ -41,6 +41,11 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-DEBUG"
         }
+        create("stub") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".stub"
+            versionNameSuffix = "-STUB"
+        }
         getByName("release") {
             isShrinkResources = true
             isMinifyEnabled = true
@@ -74,6 +79,7 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.hilt)
     kapt(libs.hiltCompiler)
+    kaptTest(libs.hiltCompiler)
     debugImplementation(libs.compose.testManifest)
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.androidTest)

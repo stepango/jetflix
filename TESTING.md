@@ -8,6 +8,80 @@ Testable App Architecture criteria:
  - Business logic fully separated/abstracted from UI and platform
    - Ideally VM's tests should be able to run in pure JVM environment e.g. no dependencies on Android SDK or Android libs.
 
+## Mocking testing data
+
+Requirements:
+- Easy switch between real/mocked data source
+- Parallel executions for same test collection against real and mock data
+- Multi-purpose tests
+  - Single test could be executed against real|mock data 
+
+# Hilt modules substitution
+
+Pros:
+- Easy to implement
+- Officially supported
+
+Cons:
+- Not flexible
+- Need multiple test implementations for mocked/read data
+- No multi-purpose tests support
+
+# Gradle project flags
+
+Build configuration fields created based on flags passed in gradle command line
+DataStores created by factory classes, implementation of stores would be based on flags
+
+Pros:
+- Flexible
+- Support multi-purpose tests
+
+Cons:
+- No parallel test collections execution
+- Not build-cache friendly
+
+# Flavor based testing configurations
+
+Pros:
+- Support parallel execution
+- Support multi purpose tests
+
+Cons: 
+- Harder to setup
+- IDE support could be better
+
+# Static hooks for DataStore factories
+
+Pros:
+- Easy to implement
+
+Cons:
+- May affect parallel tests execution on single worker
+- No parallel test collections execution
+
+# Code generation based on annotation processing
+Original test marked with Annotation, got duplicated with different configuration before execution
+
+Pros:
+- flexible
+- Support parallel execution
+- Support multi purpose tests
+- Can be combined with other technics
+
+Cons:
+- Implementation complexity
+
+# Code generation Gradle plugin
+Test folder is (partially) copied with alterred flags
+
+Pros:
+- Support parallel execution
+- Support multi purpose tests
+- Can be combined with other technics
+
+Cons:
+- Implementation complexity
+
 ## Why avoid mocking frameworks
 
 - Mocking frameworks usage reduce the incentive for developers to invest in testable code since any testability issues can be easily hacked with mocks.

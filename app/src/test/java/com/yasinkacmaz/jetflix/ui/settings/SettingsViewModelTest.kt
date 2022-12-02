@@ -2,8 +2,8 @@ package com.yasinkacmaz.jetflix.ui.settings
 
 import com.yasinkacmaz.jetflix.service.ConfigurationService
 import com.yasinkacmaz.jetflix.test.BaseJetflixTest
+import com.yasinkacmaz.jetflix.ui.application.JetflixApplication_GeneratedInjector
 import com.yasinkacmaz.jetflix.ui.settings.SettingsViewModel.UiState
-import com.yasinkacmaz.jetflix.util.CoroutineTestRule
 import com.yasinkacmaz.jetflix.util.OnlyAllowNamedArgs
 import com.yasinkacmaz.jetflix.util.test
 import com.yasinkacmaz.jetflix.util.viewmodel.StatefulViewModel
@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
 import java.io.IOException
 
@@ -75,6 +74,7 @@ fun settingsViewModel(
     ),
     languageDataStore: TestLanguageDataStore = TestLanguageDataStore(languages.asFlow()),
 ): SettingsViewModel {
+    JetflixApplication_GeneratedInjector
     return SettingsViewModel(configurationService, languageDataStore)
 }
 
