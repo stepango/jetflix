@@ -1,20 +1,29 @@
 ## Testing
 
-Testable architecture - when team writes tests without using mocking frameworks
+Testable App Architecture criteria:
+ - Code uses Functional programming concepts when applicable
+   - Pure functions, immutable classes, method references etc.
+ - Code can be tested without mocking frameworks
+   - DI implementation uses interfaces when objects needs to be passed to a constructor 
+ - Business logic fully separated/abstracted from UI and platform
+   - Ideally VM's tests should be able to run in pure JVM environment e.g. no dependencies on Android SDK or Android libs.
 
-Avoid mocking frameworks - significantly decrease tests performance and negatively affect application architecture testability.
+## Why avoid mocking frameworks
 
-Removed mokk
-
-Issues with mokk - multiple ways to verify
-
-## Build configuration
-
-`afterEvaluate` replaced with `withPlugin`
+- Mocking frameworks usage reduce the incentive for developers to invest in testable code since any testability issues can be easily hacked with mocks.
+- Mocking frameworks rely on reflection, which significantly slows down unit tests 
+- Dramatically increase memory consumption during execution, which can lead to OOM issues in local and CI environment
+- Creates ambiguity during writing the tests e.g. expected result could be validated via junit or mokk api's
 
 ## Avoid sharing data trough test class fields - this will help with more efficient parallel tests execution
 
-## Constructors accept only interfaces
+## Best practices for writing unit tests
+
+- Avoid using mocks
+- Avoid shared objects across test, use parametrised test init methods instead
+  - this approach will help to more efficiently utilize tests parallelization
+- Use test implementations of interfaces which returns fake data
+- Implement helper API's with tests specific functionality
 
 ## Testing plan
 
