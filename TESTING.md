@@ -82,6 +82,20 @@ Pros:
 Cons:
 - Implementation complexity
 
+# Parametrised tests (junit5) + Hilt flag based injection
+Single test may have multiple parameters declared in annotation
+Injector will swap data source implementation, based on parameter  
+
+Pros:
+- Support parallel execution
+- Support multi purpose tests
+- Can be combined with other technics
+
+Cons: 
+- Implementation complexity
+- May not be possible with Hilt out-of-the-box
+
+
 ## Why avoid mocking frameworks
 
 - Mocking frameworks usage reduce the incentive for developers to invest in testable code since any testability issues can be easily hacked with mocks.
