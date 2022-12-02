@@ -25,17 +25,18 @@ Testable App Architecture criteria:
 - Use test implementations of interfaces which returns fake data
 - Implement helper API's with tests specific functionality
 
-## Testing plan
+## Future plans 
 
 - Remove mocks
-- Split screens into modules
+- Split screens/features into modules
+- Split business logic in separate modules (non-android)
 - Every module have per screen UI/Screenshot tests
 - Split components into modules
-- Every component implements interface
 - Every component has test implementation which is used instead of mocks
 - Use function references instead of stateless classes
   - Easier to test
   - less code
   - no need for inject constructors
 - Avoid testing implementation details, test behaviors e.g. ViewModels, UseCase, etc.
-- Generate test implementations for retrofit services
+- Generate test implementations for retrofit service interfaces
+- Further scale app architecture with flavor of https://github.com/formatools/forma tailored for project needs

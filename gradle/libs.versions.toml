@@ -41,6 +41,7 @@ compose_constraintLayout = { module = "androidx.constraintlayout:constraintlayou
 accompanist_pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist_flowLayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
+hilt_testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHilt" }
 hiltCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerHilt" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
 serializationConverter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version = "0.8.0" }
@@ -48,6 +49,9 @@ junit = { module = "junit:junit", version = "4.13.2" }
 junitExt = { module = "androidx.test.ext:junit", version = "1.1.4" }
 strikt = { module = "io.strikt:strikt-core", version = "0.34.1" }
 coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.6.4" }
+espresso_core = { module = "androidx.test.espresso:espresso-core", version = "3.4.0" }
+espresso_runner = { module = "androidx.test:runner", version = "1.4.0" }
+espresso_rules = { module = "androidx.test:rules", version = "1.4.0" }
 
 [bundles]
 androidX = ["androidX_palette", "androidX_browser", "androidX_datastore", "androidX_corektx"]
@@ -60,4 +64,4 @@ compose = [
 accompanist = ["accompanist_pager", "accompanist_flowLayout"]
 io = ["okhttp", "retrofit", "serializationConverter", "jsonSerialization"]
 test = ["junit", "strikt", "coroutinesTest"]
-androidTest = ["compose_uiTest", "compose_uiTestJunit", "junitExt" ]
+androidTest = ["compose_uiTest", "compose_uiTestJunit", "junitExt", "espresso_core", "espresso_runner", "espresso_rules", "hilt_testing"]

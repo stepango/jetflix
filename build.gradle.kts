@@ -21,52 +21,50 @@ plugins {
 
 subprojects {
     apply(plugin = "plugins.ktlint")
-    with(pluginManager) {
-        withPlugin("com.android.application") {
-            tasks.withType<KotlinCompile>().configureEach {
-                kotlinOptions {
-                    jvmTarget = Config.javaVersion.toString()
-                    allWarningsAsErrors = true
-                    freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn", "-Xcontext-receivers")
-                    // -Pandroidx.enableComposeCompilerMetrics=true
-                    if (project.findProperty("composeCompilerReports") == "true") {
-                        freeCompilerArgs = freeCompilerArgs + listOf(
-                            "-P",
-                            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                                    project.buildDir.absolutePath + "/compose/reports"
-                        )
-                    }
-                    // -Pandroidx.enableComposeCompilerReports=true
-                    if (project.findProperty("composeCompilerMetrics") == "true") {
-                        freeCompilerArgs = freeCompilerArgs + listOf(
-                            "-P",
-                            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                                    project.buildDir.absolutePath + "/compose/metrics"
-                        )
-                    }
+    pluginManager.withPlugin("com.android.application") {
+        tasks.withType<KotlinCompile>().configureEach {
+            kotlinOptions {
+                jvmTarget = Config.javaVersion.toString()
+                allWarningsAsErrors = true
+                freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn", "-Xcontext-receivers")
+                // -Pandroidx.enableComposeCompilerMetrics=true
+                if (project.findProperty("composeCompilerReports") == "true") {
+                    freeCompilerArgs = freeCompilerArgs + listOf(
+                        "-P",
+                        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                                project.buildDir.absolutePath + "/compose/reports"
+                    )
+                }
+                // -Pandroidx.enableComposeCompilerReports=true
+                if (project.findProperty("composeCompilerMetrics") == "true") {
+                    freeCompilerArgs = freeCompilerArgs + listOf(
+                        "-P",
+                        "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                                project.buildDir.absolutePath + "/compose/metrics"
+                    )
                 }
             }
-            configure<BaseExtension> {
-                compileSdkVersion(Config.compileSdk)
-                defaultConfig {
-                    minSdk = Config.minSdk
-                    targetSdk = Config.targetSdk
-                    versionName = Config.versionName
-                    versionCode = Config.versionCode
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                }
-                compileOptions {
-                    sourceCompatibility = Config.javaVersion
-                    targetCompatibility = Config.javaVersion
-                }
+        }
+        configure<BaseExtension> {
+            compileSdkVersion(Config.compileSdk)
+            defaultConfig {
+                minSdk = Config.minSdk
+                targetSdk = Config.targetSdk
+                versionName = Config.versionName
+                versionCode = Config.versionCode
+                testInstrumentationRunner = "com.yasinkacmaz.jetflix.runner.JetflixTestRunner"
+            }
+            compileOptions {
+                sourceCompatibility = Config.javaVersion
+                targetCompatibility = Config.javaVersion
+            }
 
-                testOptions {
-                    unitTests.apply {
-                        isIncludeAndroidResources = true
-                        isReturnDefaultValues = true
-                    }
-                    animationsDisabled = true
+            testOptions {
+                unitTests.apply {
+                    isIncludeAndroidResources = true
+                    isReturnDefaultValues = true
                 }
+                animationsDisabled = true
             }
         }
     }

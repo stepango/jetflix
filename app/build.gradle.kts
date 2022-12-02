@@ -77,4 +77,5 @@ dependencies {
     debugImplementation(libs.compose.testManifest)
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.androidTest)
+    kaptAndroidTest(libs.hiltCompiler)
 }

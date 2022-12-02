@@ -19,7 +19,7 @@ data class MovieResponse(
     @SerialName("original_title") val originalTitle: String,
     @SerialName("original_language") val originalLanguage: String,
     @SerialName("overview") val overview: String,
-    @SerialName("poster_path") val posterPath: String?,
+    @SerialName("poster_path") val posterPath: String? = null,
     @SerialName("vote_average") val voteAverage: Double,
     @SerialName("vote_count") val voteCount: Int
 )
